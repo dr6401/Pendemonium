@@ -25,6 +25,8 @@ public class Wander : MonoBehaviour
     private bool isWaiting = false;
     private float wanderStrength;
 
+    [Header("DEBUG")] public bool debug = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,7 +34,7 @@ public class Wander : MonoBehaviour
         SetNextWanderDuration();
         SetNextWaitDuration();
         PickNewWanderForce();
-        Debug.Log($"New direction: {wanderDir}, Wander duration: {wanderDuration}, New wander Force: {wanderStrength}");
+        if (debug) Debug.Log($"New direction: {wanderDir}, Wander duration: {wanderDuration}, New wander Force: {wanderStrength}");
     }
 
     void FixedUpdate()
@@ -72,7 +74,7 @@ public class Wander : MonoBehaviour
             isWaiting = true;
             waitTimer = 0f;
             SetNextWaitDuration();
-            Debug.Log($"Entering wait phase for {waitDuration} seconds");
+            if (debug) Debug.Log($"Entering wait phase for {waitDuration} seconds");
         }
     }
 
@@ -80,24 +82,24 @@ public class Wander : MonoBehaviour
     {
         // Pick a completely random horizontal direction
         wanderDir = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f)).normalized;
-        Debug.Log($"New wander direction: {wanderDir}");
+        if (debug) Debug.Log($"New wander direction: {wanderDir}");
     }
 
     void PickNewWanderForce()
     {
         wanderStrength = Random.Range(wanderForceMin, wanderForceMax);
-        Debug.Log($"New wander strength: {wanderStrength}");
+        if (debug) Debug.Log($"New wander strength: {wanderStrength}");
     }
 
     void SetNextWanderDuration()
     {
         wanderDuration = Random.Range(changeDirectionIntervalMin, changeDirectionIntervalMax);
-        Debug.Log($"New wander duration: {wanderDuration}");
+        if (debug) Debug.Log($"New wander duration: {wanderDuration}");
     }
     void SetNextWaitDuration()
     {
         waitDuration = Random.Range(minWaitTimer, maxWaitTimer);
-        Debug.Log($"New wait duration: {waitDuration}");
+        if (debug) Debug.Log($"New wait duration: {waitDuration}");
     }
 
     /*void OnDrawGizmos()

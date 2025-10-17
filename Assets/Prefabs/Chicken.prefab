@@ -151,8 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7940e076e091ba14a8431b646bd85ccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wanderForceMin: 8
-  wanderForceMax: 13
+  wanderForceMin: 6
+  wanderForceMax: 10
   changeDirectionIntervalMin: 5
   changeDirectionIntervalMax: 10
   minWaitTimer: 0.5

@@ -1,17 +1,21 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BlackHoleController : MonoBehaviour
 {
     [Header("Movement")]
     public Camera mainCamera;
-    public float lerpSpeed = 5f;          // how fast it follows the mouse
+    public float moveSpeed = 5f;          // how fast it follows the mouse
     public float height = 1f;             // y-position of the black hole
     public bool useSceneObjectHeight = true;
 
-    [Header("Pull")]
+    [Header("Pull")] public bool useSizeAsRadius = true;
     public float pullRadius = 5f;
     public float pullForce = 50f;
     public LayerMask pullLayers;          // e.g., "Chicken"
+
+    private float timeUntilPull;
+    private float maxTimeUntilPull = 0.3f;
 
     private Rigidbody rb;
 
@@ -23,12 +27,15 @@ public class BlackHoleController : MonoBehaviour
         }
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;            // controlled by script
-        pullForce *= 100;
-        pullRadius = transform.localScale.y * 2f;
+        if (useSizeAsRadius)
+        {
+            pullRadius = transform.localScale.y * 2f;   
+        }
     }
 
     void Update()
     {
+        timeUntilPull += Time.deltaTime;
         FollowMouse();
     }
 
@@ -44,7 +51,7 @@ public class BlackHoleController : MonoBehaviour
         if (groundPlane.Raycast(ray, out float enter))
         {
             Vector3 targetPos = ray.GetPoint(enter);
-            transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
         }
     }
 
@@ -53,16 +60,14 @@ public class BlackHoleController : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, pullRadius, pullLayers);
         foreach (Collider col in colliders)
         {
-            Debug.Log("name of collider pulled: " + col.name);
             Rigidbody objRb = col.attachedRigidbody;
             if (objRb != null)
             {
                 Vector3 dir = (transform.position - objRb.position).normalized;
-                Debug.Log("Got the attached rb");
                 // optional: add slight upward force to look like "lifting"
                 Vector3 pull = dir + Vector3.up * 0.25f;
 
-                objRb.AddForce(pull.normalized * (pullForce * Time.fixedDeltaTime), ForceMode.Acceleration);
+                objRb.AddForce(pull.normalized * (pullForce * Time.fixedDeltaTime), ForceMode.VelocityChange);
             }
         }
     }
