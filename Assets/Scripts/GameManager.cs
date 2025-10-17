@@ -29,46 +29,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (AreAllSpawnersExtinct())
-        {
-            Debug.Log("YOU LOST");
-        }
-    }
 
-    bool AreAllSpawnersExtinct()
-    {
-        foreach (var animalFolder in animalFolders)
-        {
-            if (animalFolder.childCount >= 0)
-            {
-                return false;
-            }
-        }
-        return true;
     }
     
-    public void RetryLevel()
-    {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-    }
-
-    public void LoadUpgradesScene()
-    {
-        SceneManager.LoadSceneAsync("UpgradesScene");
-    }
-
-    public void EndLevel()
-    {
-        Debug.Log("Timer ran out!");
-    }
 
     private void OnEnable()
     {
-        GameEvents.OnLevelTimeRanOut += EndLevel;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnLevelTimeRanOut -= EndLevel;
     }
 }

@@ -11,8 +11,6 @@ public class AnimalSpawnManager : MonoBehaviour
     public int amountOfAnimalsToSpawn = 10;
     public TMP_Text animalsNumberText;
     public Transform animalsFoldersFolder;
-    private List<Transform> animalFolders;
-    
     
     public static event Action AllSpawnerDead;
 
