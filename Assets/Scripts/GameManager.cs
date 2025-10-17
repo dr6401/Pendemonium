@@ -52,6 +52,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
+    public void LoadUpgradesScene()
+    {
+        SceneManager.LoadSceneAsync("UpgradesScene");
+    }
+
     public void EndLevel()
     {
         Debug.Log("Timer ran out!");

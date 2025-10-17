@@ -6,4 +6,5 @@ public static class GameEvents
 {
     public static Action<int> OnSpawnAnimals;
     public static Action OnLevelTimeRanOut;
+    public static Action OnDisableInput;
 }

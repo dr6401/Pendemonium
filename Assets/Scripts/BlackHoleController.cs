@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,19 +15,14 @@ public class BlackHoleController : MonoBehaviour
     public float pullForce = 50f;
     public LayerMask pullLayers;          // e.g., "Chicken"
 
-    private float timeUntilPull;
-    private float maxTimeUntilPull = 0.3f;
-
-    private Rigidbody rb;
-
+    private bool inputBlocked = false;
+    
     void Start()
     {
         if (useSceneObjectHeight)
         {
             height = transform.position.y;   
         }
-        rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;            // controlled by script
         if (useSizeAsRadius)
         {
             pullRadius = transform.localScale.y * 2f;   
@@ -35,7 +31,7 @@ public class BlackHoleController : MonoBehaviour
 
     void Update()
     {
-        timeUntilPull += Time.deltaTime;
+        if (inputBlocked) return;
         FollowMouse();
     }
 
@@ -72,6 +68,20 @@ public class BlackHoleController : MonoBehaviour
         }
     }
 
+    void DisableInput()
+    {
+        inputBlocked = true;
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnDisableInput += DisableInput;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnDisableInput -= DisableInput;
+    }
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
