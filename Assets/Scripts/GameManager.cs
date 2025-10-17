@@ -1,12 +1,26 @@
+using System;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public List<Transform> animalFolders;
+
+    void Awake()
+    {
+        if (Instance != this && Instance != null)
+        {
+            Destroy(gameObject);
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
     void Start()
     {
         
@@ -36,5 +50,20 @@ public class GameManager : MonoBehaviour
     public void RetryLevel()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+    }
+
+    public void EndLevel()
+    {
+        Debug.Log("Timer ran out!");
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnLevelTimeRanOut += EndLevel;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnLevelTimeRanOut -= EndLevel;
     }
 }
