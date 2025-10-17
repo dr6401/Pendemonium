@@ -8,19 +8,31 @@ public class AnimalSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject animalPrefab;
-    public int numberOfAnimalsToSpawn = 10;
+    public int baseNumberOfAnimalsToSpawnEachRound;
+    public float previouslyAliveAnimalsToSpawnMultiplier = 0.1f;
+    private int numberOfAnimalsToSpawn = 10;
     public float spawnRadius = 20f;
     public float spawnHeight = 1f;
-    public int maxSpawnAttempts = 10;
+    private int maxSpawnAttempts = 10;
 
     [Header("Clearance Settings")]
     public float clearanceRadius = 1f;
     public Collider nonSpawningZoneCollider;
     public Transform animalsParentFolder;
-
+    private int numberOfAnimalSpawners;
+    private Transform animalsFoldersFolder;
     void Start()
     {
+        animalsFoldersFolder = transform.parent;
+        numberOfAnimalSpawners = animalsFoldersFolder.childCount;
+        numberOfAnimalSpawners--; // do not count the FoldersFolder
+        int numberOfPreviouslyAliveAnimals = GameManager.Instance.currentAliveAnimals;
+        numberOfAnimalsToSpawn = numberOfPreviouslyAliveAnimals;
+        numberOfAnimalsToSpawn += (int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier);
+        numberOfAnimalsToSpawn += baseNumberOfAnimalsToSpawnEachRound;
+        numberOfAnimalsToSpawn /= numberOfAnimalSpawners;
         SpawnAnimals(numberOfAnimalsToSpawn);
+        Debug.Log($"numberOfAnimalSpawners: {numberOfAnimalSpawners} \n numberOfPreviouslyAliveAnimals: {numberOfPreviouslyAliveAnimals} \n baseNumberOfAnimalsToSpawnEachRound: {baseNumberOfAnimalsToSpawnEachRound} \n numberOfAnimalsToSpawn: {numberOfAnimalsToSpawn}");
     }
 
     void SpawnAnimals(int animalsToSpawn)
@@ -64,12 +76,6 @@ public class AnimalSpawner : MonoBehaviour
                 GameObject newAnimal = Instantiate(animalPrefab, finalSpawnPosition, Quaternion.identity);
                 if (animalsParentFolder != null)
                     newAnimal.transform.SetParent(animalsParentFolder);
-
-                Debug.Log($"Spawned {animalPrefab.name} at {finalSpawnPosition}");
-            }
-            else
-            {
-                Debug.LogWarning($"⚠️ Couldn’t find valid spot for animal #{i} in {name}");
             }
         }
     }

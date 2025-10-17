@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,7 +13,10 @@ public class LevelTimeTracker : MonoBehaviour
     public GameObject roundOverTextObject;
     public GameObject endLevelButtons;
     
+    
     private float elapsedTime = 0f;
+    List<GameObject> spawners = new List<GameObject>();
+    public Transform animalsFoldersFolder;
 
 
     // Update is called once per frame
@@ -27,18 +31,33 @@ public class LevelTimeTracker : MonoBehaviour
             TriggerEndOfLevel();
         }
     }
+    private int GetTotalAliveAnimals()
+    {
+        if (animalsFoldersFolder == null) return 0;
+        
+        int total = 0;
+        foreach (Transform animalFolder in animalsFoldersFolder)
+        {
+            total += animalFolder.childCount;
+        }
 
+        return total;
+    }
     void TriggerEndOfLevel()
     {
         GameEvents.OnDisableInput?.Invoke();
+        GameEvents.OnReportAliveAnimalsCount?.Invoke(GetTotalAliveAnimals());
         roundOverTextObject.SetActive(true);
         endLevelButtons.SetActive(true);
         Time.timeScale = 0f;
     }
     
+
+    
+    
     public void RetryLevel()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        SceneManager.LoadSceneAsync("LevelScene");
     }
 
     public void LoadUpgradesScene()

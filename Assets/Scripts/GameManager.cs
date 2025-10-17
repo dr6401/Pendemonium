@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    public int currentAliveAnimals;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public List<Transform> animalFolders;
@@ -23,7 +25,6 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -31,13 +32,21 @@ public class GameManager : MonoBehaviour
     {
 
     }
+
+    void SetCurrentAliveAnimals(int aliveAnimals)
+    {
+        currentAliveAnimals = aliveAnimals;
+    }
     
 
     private void OnEnable()
     {
+        GameEvents.OnReportAliveAnimalsCount += SetCurrentAliveAnimals;
     }
-
+    
     private void OnDisable()
     {
+        GameEvents.OnReportAliveAnimalsCount -= SetCurrentAliveAnimals;
     }
+
 }
