@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour
         currentAliveAnimals = aliveAnimals;
     }
     
+    public void RetryLevel()
+    {
+        SceneManager.LoadSceneAsync("LevelScene");
+    }
 
     private void OnEnable()
     {

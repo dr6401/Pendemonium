@@ -51,14 +51,7 @@ public class LevelTimeTracker : MonoBehaviour
         endLevelButtons.SetActive(true);
         Time.timeScale = 0f;
     }
-    
 
-    
-    
-    public void RetryLevel()
-    {
-        SceneManager.LoadSceneAsync("LevelScene");
-    }
 
     public void LoadUpgradesScene()
     {
