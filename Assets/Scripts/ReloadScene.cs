@@ -6,7 +6,6 @@ public class ReloadScene : MonoBehaviour
 {
     private void Update()
     {
-        Debug.Log("blabla");
     }
 
     public void ReloadAScene()

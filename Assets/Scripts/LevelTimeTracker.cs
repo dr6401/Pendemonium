@@ -18,6 +18,11 @@ public class LevelTimeTracker : MonoBehaviour
     List<GameObject> spawners = new List<GameObject>();
     public Transform animalsFoldersFolder;
 
+    private void Start()
+    {
+        Time.timeScale = 1f;
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -50,6 +55,11 @@ public class LevelTimeTracker : MonoBehaviour
         roundOverTextObject.SetActive(true);
         endLevelButtons.SetActive(true);
         Time.timeScale = 0f;
+    }
+
+    public void RetryLevel()
+    {
+        SceneManager.LoadSceneAsync("LevelScene");
     }
 
 

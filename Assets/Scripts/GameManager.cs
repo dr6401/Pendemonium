@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
         if (Instance != this && Instance != null)
         {
             Destroy(gameObject);
+            return;
         }
 
         Instance = this;
@@ -30,12 +31,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     void SetCurrentAliveAnimals(int aliveAnimals)
     {
         currentAliveAnimals = aliveAnimals;
+        Debug.Log($"GameManager.Instance.currentAliveAnimals: {GameManager.Instance.currentAliveAnimals}");
+
     }
     
     public void RetryLevel()

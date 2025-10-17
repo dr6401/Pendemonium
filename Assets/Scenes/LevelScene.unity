@@ -419,6 +419,10 @@ PrefabInstance:
       propertyPath: baseNumberOfAnimalsToSpawnEachRound
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
+      propertyPath: previouslyAliveAnimalsToSpawnMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8401525934272776721, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
       propertyPath: m_LocalPosition.x
       value: -26.9
@@ -1024,6 +1028,10 @@ PrefabInstance:
       propertyPath: baseNumberOfAnimalsToSpawnEachRound
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
+      propertyPath: previouslyAliveAnimalsToSpawnMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8401525934272776721, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
       propertyPath: m_LocalPosition.x
       value: -25.1
@@ -1219,6 +1227,10 @@ PrefabInstance:
     - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
       propertyPath: baseNumberOfAnimalsToSpawnEachRound
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
+      propertyPath: previouslyAliveAnimalsToSpawnMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8401525934272776721, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1500,8 +1512,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 479802808}
     - target: {fileID: 3475386362481186427, guid: 9bb87ce923af0d44d8e9d79d06f77062, type: 3}
+      propertyPath: isMainSpawner
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475386362481186427, guid: 9bb87ce923af0d44d8e9d79d06f77062, type: 3}
       propertyPath: baseNumberOfAnimalsToSpawnEachRound
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475386362481186427, guid: 9bb87ce923af0d44d8e9d79d06f77062, type: 3}
+      propertyPath: previouslyAliveAnimalsToSpawnMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4533542226991459525, guid: 9bb87ce923af0d44d8e9d79d06f77062, type: 3}
       propertyPath: m_Name

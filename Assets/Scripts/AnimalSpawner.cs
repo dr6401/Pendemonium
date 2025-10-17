@@ -6,10 +6,10 @@ using Random = UnityEngine.Random;
 
 public class AnimalSpawner : MonoBehaviour
 {
-    [Header("Spawn Settings")]
+    [Header("Spawn Settings")] public bool isMainSpawner = false;
     public GameObject animalPrefab;
     public int baseNumberOfAnimalsToSpawnEachRound;
-    public float previouslyAliveAnimalsToSpawnMultiplier = 0.1f;
+    public float previouslyAliveAnimalsToSpawnMultiplier = 1f;
     private int numberOfAnimalsToSpawn = 10;
     public float spawnRadius = 20f;
     public float spawnHeight = 1f;
@@ -27,10 +27,11 @@ public class AnimalSpawner : MonoBehaviour
         numberOfAnimalSpawners = animalsFoldersFolder.childCount;
         numberOfAnimalSpawners--; // do not count the FoldersFolder
         int numberOfPreviouslyAliveAnimals = GameManager.Instance.currentAliveAnimals;
+        Debug.Log($"GameManager.Instance.currentAliveAnimals: {GameManager.Instance.currentAliveAnimals}");
         numberOfAnimalsToSpawn = numberOfPreviouslyAliveAnimals;
         numberOfAnimalsToSpawn += (int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier);
-        numberOfAnimalsToSpawn += baseNumberOfAnimalsToSpawnEachRound;
         numberOfAnimalsToSpawn /= numberOfAnimalSpawners;
+        if (isMainSpawner) numberOfAnimalsToSpawn += baseNumberOfAnimalsToSpawnEachRound;
         SpawnAnimals(numberOfAnimalsToSpawn);
         Debug.Log($"numberOfAnimalSpawners: {numberOfAnimalSpawners} \n numberOfPreviouslyAliveAnimals: {numberOfPreviouslyAliveAnimals} \n baseNumberOfAnimalsToSpawnEachRound: {baseNumberOfAnimalsToSpawnEachRound} \n numberOfAnimalsToSpawn: {numberOfAnimalsToSpawn}");
     }
