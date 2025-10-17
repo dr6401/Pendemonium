@@ -1,5 +1,8 @@
+using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class AnimalSpawner : MonoBehaviour
 {
@@ -17,12 +20,12 @@ public class AnimalSpawner : MonoBehaviour
 
     void Start()
     {
-        SpawnAnimals();
+        SpawnAnimals(numberOfAnimalsToSpawn);
     }
 
-    void SpawnAnimals()
+    void SpawnAnimals(int animalsToSpawn)
     {
-        for (int i = 0; i < numberOfAnimalsToSpawn; i++)
+        for (int i = 0; i < animalsToSpawn; i++)
         {
             bool foundValidSpot = false;
             Vector3 finalSpawnPosition = Vector3.zero;
@@ -69,6 +72,16 @@ public class AnimalSpawner : MonoBehaviour
                 Debug.LogWarning($"⚠️ Couldn’t find valid spot for animal #{i} in {name}");
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnSpawnAnimals += SpawnAnimals;
+    }
+    
+    private void OnDisable()
+    {
+        GameEvents.OnSpawnAnimals -= SpawnAnimals;
     }
 
     // Optional: draw spawn area

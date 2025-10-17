@@ -24,6 +24,7 @@ public class BlackHoleController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;            // controlled by script
         pullForce *= 100;
+        pullRadius = transform.localScale.y * 2f;
     }
 
     void Update()
@@ -59,9 +60,9 @@ public class BlackHoleController : MonoBehaviour
                 Vector3 dir = (transform.position - objRb.position).normalized;
                 Debug.Log("Got the attached rb");
                 // optional: add slight upward force to look like "lifting"
-                Vector3 pull = dir + Vector3.up * 0.5f;
+                Vector3 pull = dir + Vector3.up * 0.25f;
 
-                objRb.AddForce(pull.normalized * pullForce * Time.fixedDeltaTime, ForceMode.Acceleration);
+                objRb.AddForce(pull.normalized * (pullForce * Time.fixedDeltaTime), ForceMode.Acceleration);
             }
         }
     }
