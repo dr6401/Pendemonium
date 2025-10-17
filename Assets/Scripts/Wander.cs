@@ -47,13 +47,13 @@ public class Wander : MonoBehaviour
                 PickNewDirection();
                 PickNewWanderForce();
                 wanderTimer = 0f;
-                Debug.Log("Finished waiting, picking new direction");
+                //Debug.Log("Finished waiting, picking new direction");
             }
             return;
         }
 
         // Apply wandering force
-        rb.AddForce(wanderDir * wanderStrength, ForceMode.Force);
+        rb.AddForce(wanderDir * wanderStrength, ForceMode.Acceleration);
 
         // Panic check
         if (vacuum != null)
