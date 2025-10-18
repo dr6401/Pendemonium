@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public Camera cam;
     public Transform[] cameraPositions;
     public float moveSpeed = 5f;
+    public float zoomSpeed = 20f;
+    public float minFOV = 5f;
+    public float maxFOV = 60f;
+    private float scroll;
     private int index = 0;
     public PlayerControls controls;
 
@@ -21,6 +26,9 @@ public class CameraController : MonoBehaviour
             Vector3.Slerp(transform.position, cameraPositions[index].position, moveSpeed * Time.deltaTime);
         transform.rotation =
             Quaternion.Slerp(transform.rotation, cameraPositions[index].rotation, moveSpeed * Time.deltaTime);
+        scroll = Input.GetAxis("Mouse ScrollWheel");
+        cam.fieldOfView -= scroll * zoomSpeed;
+        cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, minFOV, maxFOV);
     }
 
     public void MoveCameraForward()
