@@ -29,11 +29,14 @@ public class AnimalSpawner : MonoBehaviour
         int numberOfPreviouslyAliveAnimals = GameManager.Instance.currentAliveAnimals;
         Debug.Log($"GameManager.Instance.currentAliveAnimals: {GameManager.Instance.currentAliveAnimals}");
         numberOfAnimalsToSpawn = numberOfPreviouslyAliveAnimals;
-        numberOfAnimalsToSpawn += (int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier);
+        Debug.Log($"numberOfAnimalsToSpawn ({numberOfAnimalsToSpawn}) = numberOfPreviouslyAliveAnimals ({numberOfPreviouslyAliveAnimals})");
+        numberOfAnimalsToSpawn += Mathf.CeilToInt(numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier);
+        Debug.Log($"numberOfAnimalsToSpawn ({numberOfAnimalsToSpawn - (int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier)}) = (int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier) {(int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier)} = {numberOfAnimalsToSpawn}");
         numberOfAnimalsToSpawn /= numberOfAnimalSpawners;
+        Debug.Log($"numberOfAnimalsToSpawn = {numberOfAnimalsToSpawn} after / {numberOfAnimalSpawners}");
         if (isMainSpawner) numberOfAnimalsToSpawn += baseNumberOfAnimalsToSpawnEachRound;
         SpawnAnimals(numberOfAnimalsToSpawn);
-        Debug.Log($"numberOfAnimalSpawners: {numberOfAnimalSpawners} \n numberOfPreviouslyAliveAnimals: {numberOfPreviouslyAliveAnimals} \n baseNumberOfAnimalsToSpawnEachRound: {baseNumberOfAnimalsToSpawnEachRound} \n numberOfAnimalsToSpawn: {numberOfAnimalsToSpawn}");
+        Debug.Log($"--------------numberOfAnimalSpawners: {numberOfAnimalSpawners} \n numberOfPreviouslyAliveAnimals: {numberOfPreviouslyAliveAnimals} \n baseNumberOfAnimalsToSpawnEachRound: {baseNumberOfAnimalsToSpawnEachRound} \n numberOfAnimalsToSpawn: {numberOfAnimalsToSpawn}");
     }
 
     void SpawnAnimals(int animalsToSpawn)

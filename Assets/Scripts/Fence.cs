@@ -21,7 +21,7 @@ public class Fence : MonoBehaviour
         if (other.CompareTag("Animal"))
         {
             Destroy(other.gameObject);
-            Debug.Log("Animal escaped");
+            //Debug.Log("Animal escaped");
         }
     }
 }

@@ -15,6 +15,7 @@ public class LevelTimeTracker : MonoBehaviour
     
     
     private float elapsedTime = 0f;
+    private bool hasLevelEnded = false;
     List<GameObject> spawners = new List<GameObject>();
     public Transform animalsFoldersFolder;
 
@@ -29,8 +30,9 @@ public class LevelTimeTracker : MonoBehaviour
     {
         elapsedTime += Time.deltaTime;
         timeSlider.value = (levelDurationTime - elapsedTime) / levelDurationTime;
-        if (elapsedTime >= levelDurationTime)
+        if (elapsedTime >= levelDurationTime && !hasLevelEnded)
         {
+            hasLevelEnded = true;
             timeSlider.fillRect.gameObject.SetActive(false);
             GameEvents.OnLevelTimeRanOut?.Invoke();
             TriggerEndOfLevel();

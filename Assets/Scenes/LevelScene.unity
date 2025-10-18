@@ -412,6 +412,14 @@ PrefabInstance:
       value: AnimalSpawner (2)
       objectReference: {fileID: 0}
     - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
+      propertyPath: spawnRadius
+      value: 7.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
+      propertyPath: clearanceRadius
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
       propertyPath: animalsParentFolder
       value: 
       objectReference: {fileID: 1678686248056100034}
@@ -1021,6 +1029,14 @@ PrefabInstance:
       value: AnimalSpawner (1)
       objectReference: {fileID: 0}
     - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
+      propertyPath: spawnRadius
+      value: 7.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
+      propertyPath: clearanceRadius
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
       propertyPath: animalsParentFolder
       value: 
       objectReference: {fileID: 1678686248056100034}
@@ -1221,6 +1237,14 @@ PrefabInstance:
       value: AnimalSpawner (3)
       objectReference: {fileID: 0}
     - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
+      propertyPath: spawnRadius
+      value: 7.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
+      propertyPath: clearanceRadius
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639652671212697743, guid: 616134d6e32a944469231fa4e9a04a16, type: 3}
       propertyPath: animalsParentFolder
       value: 
       objectReference: {fileID: 1678686248056100034}
@@ -1353,6 +1377,14 @@ PrefabInstance:
     - target: {fileID: 2968278172808512168, guid: 732a17e605272664d9e3db4560338f50, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706628358641453057, guid: 732a17e605272664d9e3db4560338f50, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -77.6001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706628358641453057, guid: 732a17e605272664d9e3db4560338f50, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -77.119995
       objectReference: {fileID: 0}
     - target: {fileID: 5628403245877755687, guid: 732a17e605272664d9e3db4560338f50, type: 3}
       propertyPath: m_Pivot.x
@@ -1512,8 +1544,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 479802808}
     - target: {fileID: 3475386362481186427, guid: 9bb87ce923af0d44d8e9d79d06f77062, type: 3}
+      propertyPath: spawnRadius
+      value: 7.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475386362481186427, guid: 9bb87ce923af0d44d8e9d79d06f77062, type: 3}
       propertyPath: isMainSpawner
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475386362481186427, guid: 9bb87ce923af0d44d8e9d79d06f77062, type: 3}
+      propertyPath: clearanceRadius
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 3475386362481186427, guid: 9bb87ce923af0d44d8e9d79d06f77062, type: 3}
       propertyPath: baseNumberOfAnimalsToSpawnEachRound
