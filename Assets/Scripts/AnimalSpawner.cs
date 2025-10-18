@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -15,12 +16,12 @@ public class AnimalSpawner : MonoBehaviour
     public float spawnHeight = 1f;
     private int maxSpawnAttempts = 10;
 
-    [Header("Clearance Settings")]
-    public float clearanceRadius = 1f;
+    [Header("Clearance Settings")] public float clearanceRadius = 1f;
     public Collider nonSpawningZoneCollider;
     public Transform animalsParentFolder;
     private int numberOfAnimalSpawners;
     private Transform animalsFoldersFolder;
+
     void Start()
     {
         animalsFoldersFolder = transform.parent;
@@ -29,62 +30,71 @@ public class AnimalSpawner : MonoBehaviour
         int numberOfPreviouslyAliveAnimals = GameManager.Instance.currentAliveAnimals;
         Debug.Log($"GameManager.Instance.currentAliveAnimals: {GameManager.Instance.currentAliveAnimals}");
         numberOfAnimalsToSpawn = numberOfPreviouslyAliveAnimals;
-        Debug.Log($"numberOfAnimalsToSpawn ({numberOfAnimalsToSpawn}) = numberOfPreviouslyAliveAnimals ({numberOfPreviouslyAliveAnimals})");
+        Debug.Log(
+            $"numberOfAnimalsToSpawn ({numberOfAnimalsToSpawn}) = numberOfPreviouslyAliveAnimals ({numberOfPreviouslyAliveAnimals})");
         numberOfAnimalsToSpawn += Mathf.CeilToInt(numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier);
-        Debug.Log($"numberOfAnimalsToSpawn ({numberOfAnimalsToSpawn - (int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier)}) = (int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier) {(int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier)} = {numberOfAnimalsToSpawn}");
+        Debug.Log(
+            $"numberOfAnimalsToSpawn ({numberOfAnimalsToSpawn - (int)(numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier)}) = (int) (numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier) {(int)(numberOfAnimalsToSpawn * previouslyAliveAnimalsToSpawnMultiplier)} = {numberOfAnimalsToSpawn}");
         numberOfAnimalsToSpawn /= numberOfAnimalSpawners;
         Debug.Log($"numberOfAnimalsToSpawn = {numberOfAnimalsToSpawn} after / {numberOfAnimalSpawners}");
         if (isMainSpawner) numberOfAnimalsToSpawn += baseNumberOfAnimalsToSpawnEachRound;
         SpawnAnimals(numberOfAnimalsToSpawn);
-        Debug.Log($"--------------numberOfAnimalSpawners: {numberOfAnimalSpawners} \n numberOfPreviouslyAliveAnimals: {numberOfPreviouslyAliveAnimals} \n baseNumberOfAnimalsToSpawnEachRound: {baseNumberOfAnimalsToSpawnEachRound} \n numberOfAnimalsToSpawn: {numberOfAnimalsToSpawn}");
+        Debug.Log(
+            $"--------------numberOfAnimalSpawners: {numberOfAnimalSpawners} \n numberOfPreviouslyAliveAnimals: {numberOfPreviouslyAliveAnimals} \n baseNumberOfAnimalsToSpawnEachRound: {baseNumberOfAnimalsToSpawnEachRound} \n numberOfAnimalsToSpawn: {numberOfAnimalsToSpawn}");
     }
 
     void SpawnAnimals(int animalsToSpawn)
     {
         for (int i = 0; i < animalsToSpawn; i++)
         {
-            bool foundValidSpot = false;
-            Vector3 finalSpawnPosition = Vector3.zero;
-
-            for (int attempt = 0; attempt < maxSpawnAttempts; attempt++)
-            {
-                // Pick random point around spawner
-                Vector3 randomOffset = new Vector3(
-                    Random.Range(-spawnRadius, spawnRadius),
-                    spawnHeight,
-                    Random.Range(-spawnRadius, spawnRadius)
-                );
-
-                Vector3 spawnPosition = transform.position + randomOffset;
-
-                // Check if area is clear
-                bool isClear = !Physics.CheckSphere(spawnPosition, clearanceRadius);
-
-                // Check if inside no-spawn zone
-                if (nonSpawningZoneCollider != null && 
-                    nonSpawningZoneCollider.bounds.Contains(spawnPosition))
-                {
-                    isClear = false;
-                }
-
-                if (isClear)
-                {
-                    finalSpawnPosition = spawnPosition;
-                    foundValidSpot = true;
-                    break;
-                }
-            }
-
-            if (foundValidSpot)
-            {
-                GameObject newAnimal = Instantiate(animalPrefab, finalSpawnPosition, Quaternion.identity);
-                if (animalsParentFolder != null)
-                    newAnimal.transform.SetParent(animalsParentFolder);
-            }
+            StartCoroutine(SpawnOneAnimal());
         }
     }
 
-    private void OnEnable()
+    private IEnumerator SpawnOneAnimal()
+    {
+        yield return new WaitForSeconds(0.2f);
+        bool foundValidSpot = false;
+        Vector3 finalSpawnPosition = Vector3.zero;
+
+        for (int attempt = 0; attempt < maxSpawnAttempts; attempt++)
+        {
+            // Pick random point around spawner
+            Vector3 randomOffset = new Vector3(
+                Random.Range(-spawnRadius, spawnRadius),
+                spawnHeight,
+                Random.Range(-spawnRadius, spawnRadius)
+            );
+
+            Vector3 spawnPosition = transform.position + randomOffset;
+
+            // Check if area is clear
+            bool isClear = true; //!Physics.CheckSphere(spawnPosition, clearanceRadius);
+
+            // Check if inside no-spawn zone
+            if (nonSpawningZoneCollider != null &&
+                nonSpawningZoneCollider.bounds.Contains(spawnPosition))
+            {
+                isClear = false;
+            }
+
+            if (isClear)
+            {
+                finalSpawnPosition = spawnPosition;
+                foundValidSpot = true;
+                break;
+            }
+        }
+
+        if (foundValidSpot)
+        {
+            GameObject newAnimal = Instantiate(animalPrefab, finalSpawnPosition, Quaternion.identity);
+            if (animalsParentFolder != null)
+                newAnimal.transform.SetParent(animalsParentFolder);
+        }
+    }
+
+private void OnEnable()
     {
         GameEvents.OnSpawnAnimals += SpawnAnimals;
     }
