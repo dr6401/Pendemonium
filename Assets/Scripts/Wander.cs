@@ -24,12 +24,15 @@ public class Wander : MonoBehaviour
     private float waitTimer;
     private bool isWaiting = false;
     private float wanderStrength;
+    private float nextForceTime = 0;
+    private float forceInterval = 0.2f;
 
     [Header("DEBUG")] public bool debug = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.sleepThreshold = 0.05f;
         PickNewDirection();
         SetNextWanderDuration();
         SetNextWaitDuration();
@@ -55,7 +58,11 @@ public class Wander : MonoBehaviour
         }
 
         // Apply wandering force
-        rb.AddForce(wanderDir * wanderStrength, ForceMode.Acceleration);
+        if (nextForceTime >= forceInterval)
+        {
+            rb.linearVelocity = wanderDir * wanderStrength;
+            nextForceTime = 0;
+        }
 
         // Panic check
         if (vacuum != null)
@@ -68,6 +75,7 @@ public class Wander : MonoBehaviour
         }
 
         // Wander timer
+        nextForceTime += Time.fixedDeltaTime;
         wanderTimer += Time.fixedDeltaTime;
         if (wanderTimer >= wanderDuration)
         {

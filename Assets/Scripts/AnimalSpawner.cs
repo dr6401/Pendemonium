@@ -45,53 +45,52 @@ public class AnimalSpawner : MonoBehaviour
 
     void SpawnAnimals(int animalsToSpawn)
     {
-        for (int i = 0; i < animalsToSpawn; i++)
-        {
-            StartCoroutine(SpawnOneAnimal());
-        }
+        StartCoroutine(SpawnManyAnimals(animalsToSpawn));
     }
 
-    private IEnumerator SpawnOneAnimal()
+    private IEnumerator SpawnManyAnimals(int animalsToSpawn)
     {
-        yield return new WaitForSeconds(0.2f);
-        bool foundValidSpot = false;
-        Vector3 finalSpawnPosition = Vector3.zero;
-
-        for (int attempt = 0; attempt < maxSpawnAttempts; attempt++)
+        for (int i = 0; i < animalsToSpawn; i++)
         {
-            // Pick random point around spawner
-            Vector3 randomOffset = new Vector3(
-                Random.Range(-spawnRadius, spawnRadius),
-                spawnHeight,
-                Random.Range(-spawnRadius, spawnRadius)
-            );
+            yield return new WaitForSeconds(0.005f);
+            bool foundValidSpot = false;
+            Vector3 finalSpawnPosition = Vector3.zero;
 
-            Vector3 spawnPosition = transform.position + randomOffset;
-
-            // Check if area is clear
-            bool isClear = true; //!Physics.CheckSphere(spawnPosition, clearanceRadius);
-
-            // Check if inside no-spawn zone
-            if (nonSpawningZoneCollider != null &&
-                nonSpawningZoneCollider.bounds.Contains(spawnPosition))
+            for (int attempt = 0; attempt < maxSpawnAttempts; attempt++)
             {
-                isClear = false;
+                // Pick random point around spawner
+                Vector3 randomOffset = new Vector3(
+                    Random.Range(-spawnRadius, spawnRadius),
+                    spawnHeight,
+                    Random.Range(-spawnRadius, spawnRadius)
+                );
+
+                Vector3 spawnPosition = transform.position + randomOffset;
+
+                // Check if area is clear
+                bool isClear = true; //!Physics.CheckSphere(spawnPosition, clearanceRadius);
+
+                // Check if inside no-spawn zone
+                if (nonSpawningZoneCollider != null &&
+                    nonSpawningZoneCollider.bounds.Contains(spawnPosition))
+                {
+                    isClear = false;
+                }
+
+                if (isClear)
+                {
+                    finalSpawnPosition = spawnPosition;
+                    foundValidSpot = true;
+                    break;
+                }
             }
 
-            if (isClear)
+            if (foundValidSpot)
             {
-                finalSpawnPosition = spawnPosition;
-                foundValidSpot = true;
-                break;
-            }
-        }
-
-        if (foundValidSpot)
-        {
-            GameObject newAnimal = Instantiate(animalPrefab, finalSpawnPosition, Quaternion.identity);
-            if (animalsParentFolder != null)
-                newAnimal.transform.SetParent(animalsParentFolder);
-        }
+                GameObject newAnimal = Instantiate(animalPrefab, finalSpawnPosition, Quaternion.identity);
+                if (animalsParentFolder != null)
+                    newAnimal.transform.SetParent(animalsParentFolder);
+            }        }
     }
 
 private void OnEnable()
